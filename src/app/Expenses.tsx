@@ -21,12 +21,17 @@ const Expenses = () => {
   };
 
   const handleAddExpense = async () => {
-    if (newExpenseName && newExpenseCost) {
-      console.log('Adding expense: ', {name: newExpenseName, cost: newExpenseCost })
-      await api.createExpense({ name: newExpenseName, cost: parseFloat(newExpenseCost) });
+    if (newExpenseName && newExpenseCost !== null) {
+      const timestamp = Date.now()
+      const newExpense: Expense = {
+        id: timestamp,
+        name: newExpenseName,
+        cost: newExpenseCost
+      }
+      await api.createExpense(newExpense);
       fetchExpenses();
       setNewExpenseName('');
-      setNewExpenseCost('');
+      setNewExpenseCost(null);
     }
   };
 

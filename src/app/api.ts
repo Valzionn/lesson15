@@ -39,6 +39,23 @@ const postExpenses = async (): Promise<Expense[]> => {
   return response
 }
 
+const createExpense = async (expense: Expense): Promise<void> => {
+  const res = await fetch('http://localhost:3001/api/expense', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(expense)
+  })
+
+  if (!res.ok) {
+    throw new Error('Failed to create expense')
+  }
+  
+  const response = await res.json()
+  console.log(response)
+}
+
 const deleteExpense = async (id: number): Promise<Expense[]> => {
   const res = await fetch(`http://localhost:3001/api/expense/${id}`, {
     method: 'DELETE',
@@ -59,5 +76,6 @@ const deleteExpense = async (id: number): Promise<Expense[]> => {
 export const api = {
   getExpenses,
   postExpenses,
+  createExpense,
   deleteExpense
 }
