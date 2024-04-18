@@ -28,7 +28,7 @@ const Expenses = () => {
         name: newExpenseName,
         cost: newExpenseCost
       }
-      await api.createExpense(newExpense);
+      await api.postExpenses(newExpense);
       fetchExpenses();
       setNewExpenseName('');
       setNewExpenseCost(null);
@@ -36,30 +36,50 @@ const Expenses = () => {
   };
 
   return (
-    <div className='m-10'>
-      <div className='mb-4'>
-        <input
-          type='text'
-          placeholder='Expense name'
-          value={newExpenseName}
-          onChange={(e) => setNewExpenseName(e.target.value)}
-        />
-        <input
-          type='number'
-          placeholder='Expense cost'
-          value={newExpenseCost || ''}
-          onChange={(e) => setNewExpenseCost(parseFloat(e.target.value))}
-        />
-        <button onClick={handleAddExpense}>Add Expense</button>
-      </div>
-      {expenses.map((expense) => (
-        <div key={expense.id}>
-          <p>
-            {expense.name}: {expense.cost}
-            <button onClick={() => handleDelete(expense.id)}>Delete</button>
-          </p>
+    <div className='m-10' style={{ display: 'flex' }}>
+      <div style={{ flex: 1, marginRight: '20px', flexDirection: 'column' }}>
+        <p style={{ color: '#66cdaa', fontSize: '48px' }}>Add Expense</p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '50%' }}>
+          <label htmlFor=""
+            className='text-2xl text-white'>Name </label>
+          <input
+            type='text'
+            placeholder='Expense name'
+            value={newExpenseName}
+            onChange={(e) => setNewExpenseName(e.target.value)}
+            className='border border-solid #eee text-2xl my-2'
+          />
+          <br />
         </div>
-      ))}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '52%' }}>
+          <label htmlFor=""
+            className='text-2xl text-white'>Cost </label>
+          <input
+            type='number'
+            placeholder='Expense cost'
+            value={newExpenseCost || ''}
+            onChange={(e) => setNewExpenseCost(parseFloat(e.target.value))}
+            className='border border-solid #eee text-2xl my-2'
+          />
+          <br />
+        </div>
+        <button style={{ backgroundColor: 'white', border: '2px solid blue', fontSize: '24px', margin: '4px', padding: '4px' }}
+          onClick={handleAddExpense}>Add</button>
+      </div>
+      <div style={{ flex: 1 }}>
+        {expenses.map((expense) => (
+          <div key={expense.id} style={{
+            fontSize: '24px', color: 'white', border: '3px solid #66cdaa', padding: '20px', marginBottom: '20px',
+            position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '50%'
+          }}>
+            <p> Name: {expense.name} <br /> Cost: {expense.cost} isk.
+              <button style={{
+                position: 'absolute', top: '10px', right: '10px', color: 'red'
+              }} onClick={() => handleDelete(expense.id)}>X</button>
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
